@@ -32,8 +32,12 @@ export function hideLoader() {
 
 export function showLoadMoreButton() {
     loadMoreBtn.classList.remove('hidden');
+    document.querySelector('.load-more').style.display = 'block';
 }
 
 export function hideLoadMoreButton() {
     loadMoreBtn.classList.add('hidden');
+    document.querySelector('.load-more').style.display = 'none';
 }
+
+
