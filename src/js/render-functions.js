@@ -1,51 +1,39 @@
-import SimpleLightbox from "simplelightbox";
-import "simplelightbox/dist/simple-lightbox.min.css";
-import iziToast from "izitoast";
-import "izitoast/dist/css/iziToast.min.css";
+import SimpleLightbox from 'simplelightbox';
+import 'simplelightbox/dist/simple-lightbox.min.css';
 
-const gallery = document.querySelector(".gallery");
-const loader = document.querySelector(".loader");
-const lightbox = new SimpleLightbox(".gallery a");
+const gallery = document.querySelector('.gallery');
+const loadMoreBtn = document.querySelector('.load-more');
+const loader = document.querySelector('.loader');
 
-export function showLoader() {
-  loader.style.display = "block";
-}
+let lightbox = new SimpleLightbox('.gallery a', { captionsData: 'alt', captionDelay: 250 });
 
-export function hideLoader() {
-  loader.style.display = "none";
-}
+export function createGallery(images) {
+    const markup = images.map(({ webformatURL, largeImageURL, tags }) => `
+        <a class="gallery-item" href="${largeImageURL}">
+            <img src="${webformatURL}" alt="${tags}" loading="lazy">
+        </a>
+    `).join('');
 
-export function renderImages(images) {
-  if (images.length === 0) {
-    iziToast.error({
-      title: "Error",
-      message: "Sorry, there are no images matching your search query. Please try again!",
-    });
-    return;
-  }
-
-  const markup = images
-    .map(
-      (img) => `
-    <li class="gallery-item">
-      <a href="${img.largeImageURL}">
-        <img src="${img.webformatURL}" alt="${img.tags}" loading="lazy" />
-      </a>
-      <div class="info">
-        <p>Likes: ${img.likes}</p>
-        <p>Views: ${img.views}</p>
-        <p>Comments: ${img.comments}</p>
-        <p>Downloads: ${img.downloads}</p>
-      </div>
-    </li>
-  `
-    )
-    .join("");
-
-  gallery.innerHTML = markup;
-  lightbox.refresh();
+    gallery.insertAdjacentHTML('beforeend', markup);
+    lightbox.refresh();
 }
 
 export function clearGallery() {
-  gallery.innerHTML = "";
+    gallery.innerHTML = '';
+}
+
+export function showLoader() {
+    loader.classList.remove('hidden');
+}
+
+export function hideLoader() {
+    loader.classList.add('hidden');
+}
+
+export function showLoadMoreButton() {
+    loadMoreBtn.classList.remove('hidden');
+}
+
+export function hideLoadMoreButton() {
+    loadMoreBtn.classList.add('hidden');
 }
