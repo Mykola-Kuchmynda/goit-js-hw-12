@@ -9,9 +9,10 @@ let lightbox = new SimpleLightbox('.gallery a', { captionsData: 'alt', captionDe
 
 export function createGallery(images) {
     const markup = images.map(({ webformatURL, largeImageURL, tags }) => `
-        <a class="gallery-item" href="${largeImageURL}">
+        <li class="gallery-item"> <a href="${largeImageURL}">
             <img src="${webformatURL}" alt="${tags}" loading="lazy">
-        </a>
+            </a>
+        </li>
     `).join('');
 
     gallery.insertAdjacentHTML('beforeend', markup);
